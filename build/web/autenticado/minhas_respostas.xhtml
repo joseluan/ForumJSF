@@ -1,0 +1,41 @@
+<ui:composition template="/WEB-INF/templates/template_autenticado.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="conteudo">
+        <p:outputPanel deferred="true">
+            <h1>Minhas respostas</h1>
+        </p:outputPanel>
+        <p:separator />
+        <p:link href="/autenticado/alterar_resposta.xhtml" value="Alterar respostas" />
+        <center>
+            <h:panelGroup id="respostas">
+                <ui:repeat var="resposta" value="#{ respostaBean.sessionRespostas }">
+                    <h:form>
+                        <div class="pergunta">
+                            <h4>
+                                Pergunta: <h:outputLabel value="#{ resposta.pergunta.titulo }"/>
+                                , em <h:outputLabel value="#{ formatador.formatarDataHora(resposta.pergunta.data) }"/>
+                            </h4>
+                            <h3>
+                                <b>Minha resposta:</b><br/>
+                                <h:outputLabel value="#{ resposta.texto }"/>
+                                , id: <h:outputLabel value="#{ resposta.id }"/>
+                                , em: <h:outputLabel value="#{ formatador.formatarDataHora(resposta.data) }"/>
+                            </h3>
+                            <p:commandButton value="apagar">
+                                <f:ajax event="click"
+                                        execute="@form"
+                                        listener="#{ respostaBean.remove(resposta) }"
+                                        render="respostas"/>
+                            </p:commandButton>
+                        </div>
+                    </h:form>
+                </ui:repeat>
+            </h:panelGroup>
+        </center>
+    </ui:define>
+</ui:composition>

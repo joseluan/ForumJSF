@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='UTF-8' ?>  
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/templates/template_publico.xhtml">
+
+    <ui:define name="conteudo">
+
+        <div class="row">
+            <div class="col-lg-12 form-group">
+                <center>
+                    <h:form style="background-color: white; margin: 15% 25% 25% 25%;padding: 50px;">
+                        
+                        <h1>Entrar no fórum</h1>
+                        
+                        <label for="nome" class="sr-only">Nome</label>
+                        <p:inputText class="form-control" value="#{loginBean.usuario.nome}"
+                                     placeholder="Nome" id="nome" rendered="true">
+                            <f:validateLength minimum="1"/>
+                        </p:inputText><br/>
+
+                        <label for="senha" class="sr-only">Senha</label>
+                        <p:password class="form-control" value="#{loginBean.usuario.senha}"
+                                    placeholder="Senha" id="senha" rendered="true">
+                            <f:validateLength minimum="1"/>
+                        </p:password><br/>
+
+
+                        <h:commandButton class="btn btn-primary btn-lg form-control"
+                                         style="width: 50%;height: 50px;"
+                                         action="#{loginBean.login}" value="Entrar"/>
+                        <p:link style="margin: 10px;" href="/publico/cadastro_usuario.xhtml" value="Cadastrar usuário" />
+
+                    </h:form>
+                </center>
+            </div>
+        </div>
+
+        <p:link value="Cadastrar usuário" href="/publico/cadastro_usuario.xhtml"/>
+    </ui:define>
+</ui:composition>

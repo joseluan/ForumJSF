@@ -1,0 +1,108 @@
+<ui:composition template="/WEB-INF/templates/template_autenticado.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="conteudo">
+
+        <p:outputPanel deferred="true">
+
+            <h1><h:graphicImage style="margin-bottom: 15px;" value="/arquivos/img/icone.jpg" />Fórum Genérico</h1>
+            <h2>Aqui você pode dar início a quaquer estilo de blog!</h2>
+
+        </p:outputPanel>
+
+        <p:separator />
+        <div class="row">
+            <div class="col-lg-5 form-group">
+                <h:form>
+                    <p:inputText class="form-control" style="width: 90%;" value="#{ perguntaBean.pergunta.titulo }"
+                                 placeholder="Titulo da pergunta" required="true" id="Titulo">
+                        <f:validateLength minimum="2"/>
+                    </p:inputText><br/>
+
+                    <p:inputTextarea class="form-control" style="width: 90%;" rows="5" value="#{ perguntaBean.pergunta.texto }"
+                                     placeholder="Digite aqui sua pergunta" required="true" id="TextoDaPergunta">
+                        <f:validateLength minimum="1"/>
+                    </p:inputTextarea>
+
+                    <p:commandButton  value="cadastrar" style="float:right; margin-top: -15px;margin-right: 20px; position: relative;">
+                        <f:ajax event="click"
+                                execute="@form"
+                                render="lista"
+                                listener="#{ perguntaBean.criar }" />
+                    </p:commandButton>
+
+                </h:form>
+            </div>
+            <div class="col-lg-7">
+                <p:dataList value="#{ usuarioBean.limiteUsuarios }" var="usuario" type="ordered">
+                    <f:facet name="header">
+                        Ultimos 5 usuários cadastrados
+                    </f:facet>
+                   #{ usuario.nome }
+                </p:dataList>
+            </div>
+        </div>
+        <p:separator />
+
+        <h3>Últimas perguntas</h3>
+
+        <h:panelGroup id="lista">
+            <!-- mostrando as ultimas perguntas -->
+            <ui:repeat id="perguntas" var="pergunta" value="#{ perguntaBean.perguntas }">
+
+                <div class="row">
+                    <div class="col-lg-12">
+                        <center>
+                            <div class="pergunta">
+                                <h2><h:outputText value="#{ pergunta.titulo }"/></h2>
+                                <div class="infor">
+                                    
+                                    por:  <h:graphicImage  url="#{ pergunta.usuario.urlFotoUsuario }"
+                                                           alt="foto de perfil" rendered="#{ pergunta.usuario.idFoto != null}"
+                                                           style="width: 30px;"/>
+                                    <h:outputLabel value="#{ pergunta.usuario.nome }"/>,
+                                    <h:outputLabel value="#{ pergunta.id }"/>,
+                                    publicado em: <h:outputLabel value="#{ formatador.formatarDataHora(pergunta.data) }"/>
+                                </div>
+
+                                <br/>
+                                <h4><h:outputText value="#{ pergunta.texto }"/></h4>
+                                <div class="respostas">
+                                    <!-- mostrando as respostas de cada pergunta -->
+                                    <h3>Respostas</h3>
+                                    <ui:repeat var="resposta" value="#{ respostaBean.getLimiteRespostaByPergunta(pergunta) }">    
+                                        <p>
+                                            <h5>
+                                                <b><h:outputText value="#{ resposta.usuario.nome }" />: </b> 
+                                                <h:outputText value="   #{ resposta.texto }" /> , 
+                                                <b><h:outputText value=" publicado em: #{ formatador.formatarDataHora(resposta.data) }" /></b>
+                                            </h5>
+                                        </p>
+                                    </ui:repeat>
+                                    <!-- teste -->
+                                    <h:form>
+                                        <p:inputTextarea cols="30" rows="3" value="#{ respostaBean.resposta.texto }" 
+                                                         placeholder="Insira sua resposta" id="Minha_resposta">
+                                            <f:validateLength minimum="2"/>
+                                        </p:inputTextarea>
+                                        <br/>
+                                        <p:commandButton value="Responder" style="margin: 20px;">
+                                            <f:ajax event="click"
+                                                    execute="@form"
+                                                    render="lista"
+                                                    listener="#{ respostaBean.criar(pergunta) }"/>
+                                        </p:commandButton>
+                                    </h:form>
+                                </div>
+                            </div>
+                        </center>
+                    </div>
+                </div>
+            </ui:repeat>
+        </h:panelGroup>
+    </ui:define>
+</ui:composition>

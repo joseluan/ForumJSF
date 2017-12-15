@@ -1,0 +1,56 @@
+<ui:composition template="/WEB-INF/templates/template_autenticado.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="conteudo">
+        <p:outputPanel deferred="true">
+            <h1>Alterar uma resposta    </h1>
+        </p:outputPanel>
+        <p:separator />
+        <div class="row">
+            <div class="col-lg-12">
+                <h:form>
+                    <p:inputNumber placeholder="id da resposta" value="#{ respostaBean.resposta.id }" rendered="true">
+                        <f:validateLongRange minimum="1" />
+                    </p:inputNumber>
+                    <h:commandButton value="Buscar" class="btn btn-primary">
+                        <f:ajax event="click"
+                                listener="#{ respostaBean.buscarPorId }"
+                                execute="@form"
+                                render="alterarR"
+                                />
+                    </h:commandButton>
+                </h:form>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <h:form id="alterarR">
+                    <center>
+                        <p:panelGrid style="margin: 30px;"  columns="2" rendered="#{not empty respostaBean.resposta }">
+
+                            <p:outputLabel value="Data de publicação" />
+                            <p:outputLabel id="data" value="#{ respostaBean.resposta.data }" />
+
+                            <p:outputLabel value="texto" />
+                            <p:inputTextarea id="texto" cols="60" rows="10" value="#{ respostaBean.resposta.texto }">
+                                <f:validateLength minimum="2"/>
+                            </p:inputTextarea> 
+
+                        </p:panelGrid>
+
+                        <p:commandButton value="Atualizar">
+                            <f:ajax event="click"
+                                    execute="@form"
+                                    listener="#{ respostaBean.atualizar }"
+                                    render="alterarR"/>
+                        </p:commandButton>
+                    </center>
+                </h:form>
+            </div>
+        </div>
+    </ui:define>
+</ui:composition>

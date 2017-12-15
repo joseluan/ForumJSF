@@ -1,0 +1,57 @@
+<ui:composition template="/WEB-INF/templates/template_autenticado.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="conteudo">
+        <p:outputPanel deferred="true">
+            <h1>Minha Conta</h1>
+        </p:outputPanel>
+        <p:separator />
+        <center>
+
+            <h:form>
+                <h2>Alterando minha conta:</h2>
+                
+                <!-- imagem do meu perfil -->
+                <h:graphicImage  url="#{ usuarioBean.usuario_session.urlFotoUsuario }"
+                                 alt="Minha foto de perfil" rendered="#{usuarioBean.usuario_session.idFoto != null}"
+                                 id="foto" style="width: 150px; margin: 15px 0px 40px 0px"/>
+                
+                <p:panelGrid columns="2">
+
+                    <p:outputLabel value="Nome"/>
+                    <p:inputText class="form-control" value="#{ usuarioBean.usuario_session.nome }"
+                                 placeholder="Nome do usuario" required="true">
+                        <f:validateLength minimum="2"/>
+                    </p:inputText>
+
+                    <p:outputLabel value="E-mail"/>
+                    <p:inputText class="form-control" value="#{ usuarioBean.usuario_session.email }"
+                                 placeholder="E-mail do usuario" 
+                                 requiredMessage="Por favor insira seu e-mail."
+                                 validatorMessage="formato de e-mail inválido"
+                                 required="true">
+                        <f:validateLength minimum="7"/>
+                        <f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+                    </p:inputText>
+
+                    <p:outputLabel value="Senha"/>
+                    <p:inputText class="form-control" value="#{ usuarioBean.usuario.senha }" placeholder="Senha do usuario" />
+                </p:panelGrid>
+                <h:commandButton class="btn btn-primary btn-lg" 
+                                 style="margin: 15px;"
+                                 value="Atualizar" action="#{ usuarioBean.atualizarSesion }" />
+            </h:form>
+            <h:form>
+                <h2>Apagando minha conta:</h2>
+                <h:commandButton class="btn btn-primary btn-lg" 
+                                 style="margin: 15px;"
+                                 value="apagar minha conta" action="#{ usuarioBean.sessionRemover }" />
+            </h:form>
+
+        </center>
+    </ui:define>
+</ui:composition>

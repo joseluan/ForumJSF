@@ -1,0 +1,81 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 23/10/2017, 19:08:39
+    Author     : Luan
+*/
+@font-face {
+     font-family: 'mouse';
+     src: url('../fonts/mouse.ttf');
+}
+
+@font-face {
+     font-family: 'raleway';
+     src: url('../fonts/Raleway.ttf');
+}
+h1,h2,h3,h5,h6{
+    font-family: 'raleway';
+}
+.pergunta{
+    padding: 15px;
+    width: 65%;
+    border-radius: 30px;
+    border: #559cd9 3px solid;
+    margin: 20px 0px 20px 0px;
+}
+.respostas{
+    padding: 10px;
+    border-radius: 30px 30px 30px 30px;
+    background-color: #77befb;
+}
+.respostas_detalhe{
+    width: 80%;
+    padding: 15px;
+    border-radius: 30px 30px 30px 30px;
+    border: #77befb solid 3px;
+}
+.post{
+    margin: 0px;
+}
+.direito{
+    float: right;
+    margin: 10px;
+}
+.publico{
+    padding: 50px;
+    background-color: white;
+    background-color: white;
+    margin: 15% 25% 25% 25%;
+    padding: 50px;
+}
+h1{
+    font-family: 'mouse';
+    font-size: 64pt;
+    color: #337ab7;
+    transition: color 0.3s;
+}
+h1:hover{
+    color: #115895;
+}
+span{
+    font-family: 'mouse';
+    font-size: 20pt;
+}
+#titulo{
+    font-size: 20pt;
+}
+#titulo #titulo-info{
+    font-size: 16pt;
+}
+p{
+    text-justify: auto;
+    text-indent: 30px;
+}
+.infor{
+    font-size: 12pt;
+    float: right;
+    clear: both;
+}

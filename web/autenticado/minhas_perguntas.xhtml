@@ -1,0 +1,33 @@
+<ui:composition template="/WEB-INF/templates/template_autenticado.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="conteudo">
+        <p:outputPanel deferred="true">
+            <h1>Minhas perguntas</h1>
+        </p:outputPanel>
+        <p:separator />
+        <p:link href="/autenticado/alterar_pergunta.xhtml" value="Alterar perguntas" />
+        <center>
+            <h:panelGroup id="pergutas">
+                <ui:repeat var="pergunta" value="#{ perguntaBean.sessionPerguntas }">
+                    <h:form>
+                        <div class="pergunta">
+                            <h4><h:outputLabel value="#{ pergunta.titulo }"/> - id: <h:outputLabel value="#{ pergunta.id }"/> - publicado em: <h:outputLabel value="#{ formatador.formatarDataHora(pergunta.data) }"/></h4>
+                            <p><h:outputLabel value="#{ pergunta.texto }"/></p>
+                            <p:commandButton value="apagar">
+                                <f:ajax event="click"
+                                        execute="@form"
+                                        listener="#{ perguntaBean.remover(pergunta) }"
+                                        render="pergutas"/>
+                            </p:commandButton>
+                        </div>
+                    </h:form>
+                </ui:repeat>
+            </h:panelGroup>
+        </center>
+    </ui:define>
+</ui:composition>

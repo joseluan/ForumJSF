@@ -1,0 +1,84 @@
+<ui:composition template="/WEB-INF/templates/template_autenticado.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="conteudo">
+        <p:outputPanel deferred="true">
+            <h1>Ver uma pergunta com detalhes</h1>
+        </p:outputPanel>
+        <p:separator />
+        <div class="row">
+            <div class="col-lg-12">
+                <h:form>
+                    <p:inputNumber placeholder="id da pergunta" value="#{ perguntaBean.pergunta.id }" rendered="true">
+                        <f:validateLongRange minimum="1" />
+                    </p:inputNumber>
+                    <h:commandButton value="Buscar" class="btn btn-primary">
+                        <f:ajax event="click"
+                                execute="@form"
+                                render="perguntaBusca respostas"
+                                listener="#{ perguntaBean.buscarPorIdESession }"/>
+                    </h:commandButton>
+                </h:form>
+            </div>
+        </div>
+        <center>
+            <div class="row">
+                <div class="col-lg-12">
+
+                    <p:panelGrid id="perguntaBusca" style="margin: 30px;"  columns="2" rendered="#{not empty perguntaBean.pergunta }">
+
+                        <p:outputLabel value="Data de publicação" />
+                        <p:outputLabel id="data" value="#{ perguntaBean.pergunta.data }"/>
+
+                        <p:outputLabel value="Titulo" />
+                        <p:outputLabel id="titulo" value="#{ perguntaBean.pergunta.titulo }"/>
+
+                        <p:outputLabel value="Texto" />
+                        <p:outputLabel id="texto" value="#{ perguntaBean.pergunta.texto }" />
+
+                        <p:outputLabel value="Autor" />
+                        <p:outputLabel id="nome" value="#{ perguntaBean.pergunta.usuario.nome }" />
+
+                    </p:panelGrid>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="respostas_detalhe">
+                        <h:panelGroup id="respostas">
+                            <!-- mostrando as respostas de cada pergunta -->
+                            <h4>Respostas</h4>
+                            <ui:repeat var="resposta" value="#{ respostaBean.getRespostaByPergunta(perguntaBean.pergunta) }">    
+                                <p>
+                                    <h5>
+                                        <b><h:outputText value="#{ resposta.usuario.nome }" />: </b> 
+                                        <h:outputText value="#{ resposta.texto }" /> , 
+                                        <b><h:outputText value=" publicado em: #{ formatador.formatarDataHora(resposta.data) }" /></b>
+                                    </h5>
+                                </p>
+                            </ui:repeat>
+                        </h:panelGroup>
+                        <h:form>
+                            <p:inputTextarea cols="60" rows="5" value="#{ respostaBean.resposta.texto }" 
+                                             placeholder="Insira sua resposta" id="Minha_resposta">
+                                <f:validateLength minimum="2"/>
+                            </p:inputTextarea>
+                            <br/>
+                            <p:commandButton value="Responder" style="margin: 20px;">
+                                <f:ajax event="click"
+                                        execute="@form"
+                                        render="respostas"
+                                        listener="#{ respostaBean.criar( perguntaBean.pergunta ) }"/>
+                            </p:commandButton>
+                        </h:form>
+                    </div>
+
+                </div>
+            </div>        
+        </center>
+    </ui:define>
+</ui:composition>
